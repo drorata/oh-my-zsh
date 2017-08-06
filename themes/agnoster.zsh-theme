@@ -192,12 +192,19 @@ prompt_dir() {
 
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
-  local virtualenv_path="$VIRTUAL_ENV"
-  if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment blue black "(`basename $virtualenv_path`)"
+  local env='';
+
+  if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+    env="$CONDA_DEFAULT_ENV"
+  elif [[ -n "$VIRTUAL_ENV" ]]; then
+    env="$VIRTUAL_ENV"
+  fi
+
+  if [[ -n $env ]]; then
+    prompt_segment cyan black
+    print -Pn "$(basename $env)"
   fi
 }
-
 # Status:
 # - was there an error
 # - am I root
